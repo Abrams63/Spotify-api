@@ -4,7 +4,6 @@ using Genie
 using Genie.Router
 using StatsBase
 
-# Функция для получения токена Spotify
 function get_spotify_token(client_id::String, client_secret::String)
     url = "https://accounts.spotify.com/api/token"
     headers = ["Authorization" => "Basic " * base64encode("$client_id:$client_secret")]
@@ -28,7 +27,7 @@ function get_track_features(track_ids::Vector{String}, token::String)
     return features
 end
 
-# Функция для анализа характеристик треков
+
 function analyze_taste(features::Vector{Dict})
     danceability = [f["danceability"] for f in features]
     energy = [f["energy"] for f in features]
@@ -42,7 +41,6 @@ function analyze_taste(features::Vector{Dict})
     return results
 end
 
-# Эндпоинт для анализа треков
 route("/analyze", method = POST) do
     request_data = JSON.parse(Genie.Requests.body())
     client_id = request_data["client_id"]
